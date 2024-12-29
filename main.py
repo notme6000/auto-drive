@@ -3,9 +3,20 @@ from googleapiclient.http import MediaFileUpload
 from google.oauth2.service_account import Credentials
 import os
 
+
+
 SCOPES = ['https://www.googleapis.com/auth/drive']
 creds = Credentials.from_service_account_file('authclients.json', scopes = SCOPES)
 drive_service = build('drive', 'v3', credentials=creds)
+
+def clear_drive_folder(drive_folder_id):
+    query = f"'{drive_folder_id}' in parents and trashed = false"
+    results = drive_service.files().list(q=query, fields="files(id, name)").execute()
+    files = results.get('files', [])
+    
+    for file in files:
+        drive_service.files().delete(fileId=file['id']).execute()
+        print(f"deleted: {file['name']}")
 
 def create_drive_folder(obsidian, parent_folder_id=None):
     file_metadata = {
@@ -39,5 +50,6 @@ def upload_folder(local_folder, drive_folder_id):
 local_folder = "/home/notme6000/Documents/test"
 drive_folder_id = '1w5_iE0uQGddQvEQ4pYc7PrNvCu4NnZHC'
 
+clear_drive_folder(drive_folder_id)
 upload_folder(local_folder, drive_folder_id)
 print("folder uploaded complete")
