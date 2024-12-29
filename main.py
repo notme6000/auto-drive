@@ -3,10 +3,12 @@ from googleapiclient.http import MediaFileUpload
 from google.oauth2.service_account import Credentials
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDENTIALS_FILE = os.path.join(BASE_DIR, 'authclients.json')
 
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
-creds = Credentials.from_service_account_file('authclients.json', scopes = SCOPES)
+creds = Credentials.from_service_account_file(CREDENTIALS_FILE, scopes = SCOPES)
 drive_service = build('drive', 'v3', credentials=creds)
 
 def clear_drive_folder(drive_folder_id):
