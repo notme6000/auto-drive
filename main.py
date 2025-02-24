@@ -49,7 +49,7 @@ def upload_folder(local_folder, drive_folder_id):
         else:
             upload_file(item_path, drive_folder_id)
             
-local_folder = "/home/notme6000/Documents/test"
+local_folder = "/home/notme6000/Documents/Obsidian Vault"
 drive_folder_id = '1w5_iE0uQGddQvEQ4pYc7PrNvCu4NnZHC'
 
 clear_drive_folder(drive_folder_id)
